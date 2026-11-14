@@ -5,6 +5,7 @@ description = "Ball possession labelling, More Than A Hack 2027 Initial Challeng
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "lightgbm>=4.7.0",
+    "numba>=0.68.1",
     "numpy>=2.5.4",
     "pandas>=3.1.1",
     "scikit-learn>=1.9.1",
