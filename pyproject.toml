@@ -1,0 +1,12 @@
+[project]
+name = "mtah2027-ball-possession"
+version = "0.1.0"
+description = "Ball possession labelling, More Than A Hack 2027 Initial Challenge"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "lightgbm>=4.7.0",
+    "numpy>=2.5.4",
+    "pandas>=3.1.1",
+    "scikit-learn>=1.9.1",
+    "scipy>=1.18.1",
+]

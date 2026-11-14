@@ -1,0 +1,11 @@
+data/*
+!data/README.md
+cache/
+outputs/
+.venv/
+__pycache__/
+*.npz
+*.npy
+*.mp4
+*.parquet
+evaluation/results/*.csv
