@@ -81,8 +81,11 @@ def switch_scores(p_trans: np.ndarray, prm: DecoderParams) -> np.ndarray:
     return lg * np.asarray(prm.beta)[None, :] - np.asarray(prm.c)[None, :]
 
 
-def decode_half(p_state: np.ndarray, p_trans: np.ndarray | None, prm: DecoderParams) -> np.ndarray:
+def decode_half(p_state: np.ndarray, p_trans: np.ndarray | None, prm: DecoderParams, extra: np.ndarray | None = None) -> np.ndarray:
+    """`extra` [n,3] is added to the emission scores (auxiliary evidence, hard constraints)."""
     e = prm.alpha * np.log(np.clip(p_state.astype(np.float64), 1e-6, 1.0))
+    if extra is not None:
+        e = e + extra
     if p_trans is None:
         sw = np.tile(-np.asarray(prm.c, np.float64), (len(e), 1))
     else:
@@ -90,12 +93,13 @@ def decode_half(p_state: np.ndarray, p_trans: np.ndarray | None, prm: DecoderPar
     return _viterbi(np.ascontiguousarray(e), np.ascontiguousarray(sw))
 
 
-def decode(p_state, p_trans, period, prm: DecoderParams, fill: int = 3) -> np.ndarray:
+def decode(p_state, p_trans, period, prm: DecoderParams, fill: int = 3, extra: np.ndarray | None = None) -> np.ndarray:
     """Decode each period (1, 2) of a full-length array; other frames get `fill` (X)."""
     out = np.full(len(period), fill, np.int8)
     for p in (1, 2):
         idx = np.flatnonzero(period == p)
         if len(idx):
             sl = slice(int(idx[0]), int(idx[-1]) + 1)
-            out[sl] = decode_half(p_state[sl], None if p_trans is None else p_trans[sl], prm)
+            out[sl] = decode_half(p_state[sl], None if p_trans is None else p_trans[sl], prm,
+                                  None if extra is None else extra[sl])
     return out

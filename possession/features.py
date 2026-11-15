@@ -172,6 +172,9 @@ def _half(m: Match, sl: slice, pitch) -> dict:
     d_tl = W / 2 - np.abs(by)
     d_gl = L / 2 - np.abs(bx)
     f.add("ball_x", bx); f.add("ball_y", by); f.add("ball_absy", np.abs(by))
+    box_w = np.abs(by) < 20.16                                            # canonical: home attacks +x
+    f.add("ball_box_opp", np.where(present, ((bx > L / 2 - 16.5) & box_w).astype(float), np.nan))
+    f.add("ball_box_own", np.where(present, ((bx < -L / 2 + 16.5) & box_w).astype(float), np.nan))
     f.add("ball_speed", speed); f.add("ball_acc", acc); f.add("ball_head_change", head)
     f.add("ball_d_touchline", d_tl); f.add("ball_d_goalline", d_gl)
     f.add("ball_out_near", m_near); f.add("ball_out_far", m_far); f.add("ball_out_goal", m_goal)
