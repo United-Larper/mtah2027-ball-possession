@@ -1,12 +1,14 @@
-"""Make clean external (DFL) tracking look like the competition match's tracking.
+"""Make clean external tracking look like the competition match's tracking.
 
-The target tracking is a camera-based product: the ball is a 2-D image detection projected on the
-ground plane (airborne balls are displaced away from the camera), the ball is lost for long blocks
-that are tied to stoppages, and players outside the panning camera's field of view are not
-tracked. Each component below is switchable. Parameters given as `(lo, hi)` tuples are drawn
-uniformly per degraded copy (domain randomisation); `mid=True` uses the mid-points instead.
+The target tracking is a camera-based product. Measured on the target without labels
+(`assets/target_stats.json`): tracks are heavily smoothed; the ball is lost for long blocks
+(5 s to minutes) that are tied to stoppages, never for short gaps; players outside the panning
+camera's field of view are often not tracked. The camera sits on the +y side. Airborne balls are
+NOT visibly back-projected onto the ground, so the aerial projection below is off by default and
+kept only as a switch. Each component is switchable. Parameters given as `(lo, hi)` tuples are
+drawn uniformly per degraded copy (domain randomisation); `mid=True` uses the mid-points.
 
-Input and output are CANONICAL matches (home attacks +x, camera on the y<0 side).
+Input and output are CANONICAL matches (home attacks +x, y unchanged).
 """
 from __future__ import annotations
 
