@@ -146,11 +146,13 @@ def main():
     report("v1_noaux", pred_noaux, m, tact_present, bstate)
     report("v1", pred_v1, m, tact_present, bstate)
 
-    v0 = read_codes(VAR / "v0.csv")
-    cands = {"v0": v0, "v1_noaux": pred_noaux, "v1": pred_v1}
+    cands = {"v1_noaux": pred_noaux, "v1": pred_v1}
+    if (VAR / "v0.csv").exists():          # the earlier single-model output, kept locally for comparison only
+        v0 = read_codes(VAR / "v0.csv")
+        cands = {"v0": v0, **cands}
+        print(f"[v0] shares H/A/D {[round(float((v0[g] == k).mean()), 3) for k in range(3)]}; D share ball present {float((v0[g & tact_present] == 2).mean()):.3f} missing {float((v0[g & ~tact_present] == 2).mean()):.3f}; {possession_stats(v0, m)}")
     ks = list(cands)
     print("pairwise graded-frame agreement: " + ", ".join(f"{x}~{y} {float((cands[x][g] == cands[y][g]).mean()):.3f}" for i, x in enumerate(ks) for y in ks[i + 1:]))
-    print(f"[v0] shares H/A/D {[round(float((v0[g] == k).mean()), 3) for k in range(3)]}; D share ball present {float((v0[g & tact_present] == 2).mean()):.3f} missing {float((v0[g & ~tact_present] == 2).mean()):.3f}; {possession_stats(v0, m)}")
     for nm, pr in cands.items():
         sanity(nm, pr, raw, tact_present)
     print(f"timings: load {t1 - t0:.1f}s features {t2 - t1:.1f}s predict {t3 - t2:.1f}s aux+decode {t4 - t3:.1f}s total {time.time() - t0:.1f}s")
