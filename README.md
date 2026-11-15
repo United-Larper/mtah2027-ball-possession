@@ -22,7 +22,7 @@ uv run python scripts/run.py
 ```
 
 This writes `outputs/RickRolled.csv` (199,319 rows) and validates it with the organisers'
-`validate_submission` logic. The first run takes about three minutes because it parses the
+`validate_submission` logic. The first run takes about a minute because it parses the
 tracking and synchronises the broadcast recording; later runs take about 15 seconds.
 
 Expected SHA-256 of `outputs/RickRolled.csv`:
