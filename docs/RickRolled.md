@@ -2,7 +2,7 @@
 
 **Team RickRolled · More Than A Hack 2027, Initial Challenge · November 2026**
 
-Code: https://github.com/harithnabilf/mtah2027-ball-possession
+Code: https://github.com/United-Larper/mtah2027-ball-possession
 
 ## 1. Summary
 
