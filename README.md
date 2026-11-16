@@ -12,13 +12,21 @@ The technical document is [docs/RickRolled.md](docs/RickRolled.md) (submitted as
 Requirements: [uv](https://docs.astral.sh/uv/) and the competition data bundle. Python 3.12 and
 all pinned dependencies are installed by uv from `uv.lock`.
 
-1. Put the data bundle in `./data` (so that `data/tactical/BAR-ATH_tactical_atd.txt` exists), or
-   point `MTAH_DATA_DIR` at it. The videos are not needed.
+1. Put the data bundle in `./data` with **both** folders as delivered, `data/tactical/` and
+   `data/broadcast/` (the broadcast tracking and homography are inputs), or point
+   `MTAH_DATA_DIR` at the folder that holds them. The videos are not needed.
 2. Run:
 
 ```bash
 uv sync
 uv run python scripts/run.py
+```
+
+Without uv: use Python 3.12 and the same pinned versions, exported from `uv.lock`:
+
+```bash
+python -m pip install -r requirements.txt
+python scripts/run.py
 ```
 
 This writes `outputs/RickRolled.csv` (199,319 rows) and validates it with the organisers'
@@ -30,6 +38,9 @@ Expected SHA-256 of `outputs/RickRolled.csv`:
 ```
 d118760450ec0a3c076840d8bd0c2526446dd03a8121d82e3a3c6110f3d4d46d
 ```
+
+Check it with `sha256sum outputs/RickRolled.csv` (Linux/macOS) or
+`Get-FileHash outputs\RickRolled.csv` (Windows PowerShell).
 
 The trained models (`models/*.txt`), the decoder parameters (`models/decoder.json`) and the
 auxiliary-evidence tables (`models/aux_tables.json`) are committed, so the run involves no
